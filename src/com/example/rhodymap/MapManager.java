@@ -1,13 +1,19 @@
 package com.example.rhodymap;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View.OnClickListener;
 
-public class MapManager extends Activity
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.SupportMapFragment;
+
+public class MapManager extends FragmentActivity
 {
 
     @Override
@@ -15,6 +21,21 @@ public class MapManager extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        
+        // Get a handle to the Map Fragment
+        GoogleMap map = ((SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map)).getMap();
+        
+        LatLng uri = new LatLng(41.48639866968497, -71.52702569961548);
+        
+
+        map.setMyLocationEnabled(true);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(uri, 15));
+
+        map.addMarker(new MarkerOptions()
+                .title("URI")
+                .snippet("Quad")
+                .position(uri));
         
     }
 

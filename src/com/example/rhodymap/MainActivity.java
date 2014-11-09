@@ -23,7 +23,7 @@ public class MainActivity extends Activity implements OnClickListener
         Button submitButton = (Button)this.findViewById(R.id.submitButton);
 		submitButton.setOnClickListener(this);
 		
-		Button skipButton = (Button)this.findViewById(R.id.submitButton);
+		Button skipButton = (Button)this.findViewById(R.id.skipButton);
 		skipButton.setOnClickListener(this);
 		
 		Log.v("MainActivity", "created buttons");	
