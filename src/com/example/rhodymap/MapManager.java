@@ -3,36 +3,19 @@ package com.example.rhodymap;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 
-
-public class MainActivity extends Activity implements OnClickListener
+public class MapManager extends Activity
 {
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_map);
         
-        Button submitButton = (Button)this.findViewById(R.id.submitButton);
-		submitButton.setOnClickListener(this);
-		
-		Button skipButton = (Button)this.findViewById(R.id.submitButton);
-		skipButton.setOnClickListener(this);
-		
-		Log.v("MainActivity", "created buttons");	
-    }
-    
-    public void onClick(View v)
-    {
-    	Intent myIntent = new Intent(this, MapManager.class);
-    	startActivity(myIntent);
     }
 
     @Override
@@ -55,4 +38,5 @@ public class MainActivity extends Activity implements OnClickListener
         }
         return super.onOptionsItemSelected(item);
     }
+	
 }
