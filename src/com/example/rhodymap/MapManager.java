@@ -58,5 +58,5 @@ public class MapManager extends FragmentActivity
         }
         return super.onOptionsItemSelected(item);
     }
-	
+    
 }

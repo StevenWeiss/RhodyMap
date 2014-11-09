@@ -21,18 +21,18 @@ public class MainActivity extends Activity implements OnClickListener
         setContentView(R.layout.activity_main);
         
         Button submitButton = (Button)this.findViewById(R.id.submitButton);
-		submitButton.setOnClickListener(this);
-		
-		Button skipButton = (Button)this.findViewById(R.id.skipButton);
-		skipButton.setOnClickListener(this);
-		
-		Log.v("MainActivity", "created buttons");	
+        submitButton.setOnClickListener(this);
+        
+        Button skipButton = (Button)this.findViewById(R.id.skipButton);
+        skipButton.setOnClickListener(this);
+        
+        Log.v("MainActivity", "created buttons");    
     }
     
     public void onClick(View v)
     {
-    	Intent myIntent = new Intent(this, MapManager.class);
-    	startActivity(myIntent);
+        Intent myIntent = new Intent(this, MapManager.class);
+        startActivity(myIntent);
     }
 
     @Override
