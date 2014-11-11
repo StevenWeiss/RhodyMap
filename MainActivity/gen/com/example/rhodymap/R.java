@@ -327,6 +327,7 @@ containing a value of this type.
         public static final int zOrderOnTop=0x7f010010;
     }
     public static final class color {
+        public static final int bg_color=0x7f060017;
         public static final int common_action_bar_splitter=0x7f060009;
         /**  Sign-in Button Colors 
          */
@@ -339,8 +340,8 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f060006;
         public static final int common_signin_btn_light_text_focused=0x7f060007;
         public static final int common_signin_btn_light_text_pressed=0x7f060005;
-        public static final int common_signin_btn_text_dark=0x7f060017;
-        public static final int common_signin_btn_text_light=0x7f060018;
+        public static final int common_signin_btn_text_dark=0x7f060018;
+        public static final int common_signin_btn_text_light=0x7f060019;
         public static final int wallet_bright_foreground_disabled_holo_light=0x7f06000f;
         /** 
          Wallet colors to support consistent Wallet fragment holo dark UI in client application
@@ -359,8 +360,8 @@ containing a value of this type.
         public static final int wallet_hint_foreground_holo_light=0x7f060011;
         public static final int wallet_holo_blue_light=0x7f060015;
         public static final int wallet_link_text_light=0x7f060016;
-        public static final int wallet_primary_text_holo_light=0x7f060019;
-        public static final int wallet_secondary_text_holo_dark=0x7f06001a;
+        public static final int wallet_primary_text_holo_light=0x7f06001a;
+        public static final int wallet_secondary_text_holo_dark=0x7f06001b;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 

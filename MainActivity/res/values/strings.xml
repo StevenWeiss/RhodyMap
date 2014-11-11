@@ -4,5 +4,6 @@
     <string name="app_name">Rhody Map</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+	<color name="bg_color">#ffffff</color>
+	
 </resources>
