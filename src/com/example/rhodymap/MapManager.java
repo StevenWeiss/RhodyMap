@@ -29,7 +29,7 @@ public class MapManager extends FragmentActivity
         LatLng uri = new LatLng(41.48639866968497, -71.52702569961548);
         
         map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(uri, 15));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(uri, 17));
 
         map.addMarker(new MarkerOptions()
                 .title("URI")

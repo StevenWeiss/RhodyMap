@@ -1,5 +1,7 @@
 package com.example.rhodymap;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +28,20 @@ public class MainActivity extends Activity implements OnClickListener
         Button skipButton = (Button)this.findViewById(R.id.skipButton);
         skipButton.setOnClickListener(this);
         
-        Log.v("MainActivity", "created buttons");    
+        DataManager data = new DataManager(this);
+        data.getReadableDatabase(); // Creates the database.
+                
+        test("ch", data);
+        test("tyler", data);
+    }
+    
+    private void test(String query, DataManager data)
+    {   
+        List<Building> bs = data.getBuildings(query);
+        for (Building b : bs)
+        {
+        	Log.v("MainActivity", b.getName());
+        }
     }
     
     public void onClick(View v)
@@ -50,7 +65,8 @@ public class MainActivity extends Activity implements OnClickListener
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings) 
+        {
             return true;
         }
         return super.onOptionsItemSelected(item);
