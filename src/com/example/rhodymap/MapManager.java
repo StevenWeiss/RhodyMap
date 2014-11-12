@@ -1,6 +1,5 @@
 package com.example.rhodymap;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -8,13 +7,18 @@ import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.SupportMapFragment;
 
-public class MapManager extends FragmentActivity
+public class MapManager extends FragmentActivity implements OnMapClickListener
 {
+	
+	private GoogleMap gMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,20 +26,28 @@ public class MapManager extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         
-        // Get a handle to the Map Fragment
-        GoogleMap map = ((SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map)).getMap();
+        setUpMapIfNeeded();
         
-        LatLng uri = new LatLng(41.48639866968497, -71.52702569961548);
-        
-        map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(uri, 17));
+        gMap.setMyLocationEnabled(true);
+        gMap.setOnMapClickListener(this);
+ 
+    }
+    
+    private void setUpMapIfNeeded() 
+    {
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (gMap == null) 
+        {
+            gMap = ((MapFragment)getFragmentManager().findFragmentById(R.id.map))
+                                .getMap();
+            // Check if we were successful in obtaining the map.
+            if (gMap != null) 
+            {
+                // The Map is verified. It is now safe to manipulate the map.
+            	defaultCameraPosition();
 
-        map.addMarker(new MarkerOptions()
-                .title("URI")
-                .snippet("Quad")
-                .position(uri));
-        
+            }
+        }
     }
 
     @Override
@@ -53,10 +65,37 @@ public class MapManager extends FragmentActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings)
+        {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+
+    @Override
+	public void onMapClick(LatLng point) 
+	{
+		Marker marker = gMap.addMarker(new MarkerOptions()
+				.position(point)
+				.title("Marker title")
+				.snippet("The info window works!")
+				.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+		
+	}
+    
+    public void defaultCameraPosition()
+    {
+        LatLng uri = new LatLng(41.48639866968497, -71.52702569961548);
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+            	.target(uri)    	  // Sets the center of the map to Mountain View
+            	.zoom(17)                   // Sets the zoom
+            	.bearing(90)                // Sets the orientation of the camera to north
+            	.tilt(30)                   // Sets the tilt of the camera to 30 degrees
+            	.build();                   // Creates a CameraPosition from the builder
+
+        gMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
     
 }

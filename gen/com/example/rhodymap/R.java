@@ -410,7 +410,8 @@ containing a value of this type.
         public static final int powered_by_google_light=0x7f020020;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a001a;
+        public static final int LinearLayout1=0x7f0a0019;
+        public static final int action_settings=0x7f0a001b;
         public static final int book_now=0x7f0a000e;
         public static final int buyButton=0x7f0a000a;
         public static final int buy_now=0x7f0a000f;
@@ -420,7 +421,7 @@ containing a value of this type.
         public static final int holo_dark=0x7f0a0005;
         public static final int holo_light=0x7f0a0006;
         public static final int hybrid=0x7f0a0000;
-        public static final int map=0x7f0a0019;
+        public static final int map=0x7f0a001a;
         public static final int match_parent=0x7f0a000c;
         public static final int monochrome=0x7f0a0013;
         public static final int none=0x7f0a0001;
