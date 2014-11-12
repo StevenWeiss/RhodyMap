@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+<<<<<<< HEAD:.classpath
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+=======
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+>>>>>>> 69744ebe3bc5a06f1180e5c140c36e18d2b7f86b:MainActivity/.classpath
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+<<<<<<< HEAD:.classpath
 	<classpathentry kind="lib" path="/home/warren/android-sdks/extras/android/support/v4/android-support-v4.jar"/>
 	<classpathentry kind="lib" path="/home/warren/workspace/jsoup-1.8.1.jar"/>
+=======
+>>>>>>> 69744ebe3bc5a06f1180e5c140c36e18d2b7f86b:MainActivity/.classpath
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
