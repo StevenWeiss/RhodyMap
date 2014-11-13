@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
+<resources>
+
+    <string name="app_name">Rhody Map</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
+=======
+<resources>
+
+    <string name="app_name">Rhody Map</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
+>>>>>>> f1015963ccda356d5e39e5664acb3a2346309386
