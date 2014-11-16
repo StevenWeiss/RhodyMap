@@ -411,7 +411,6 @@ containing a value of this type.
     }
     public static final class id {
         public static final int LinearLayout1=0x7f0a0019;
-        public static final int action_settings=0x7f0a001b;
         public static final int book_now=0x7f0a000e;
         public static final int buyButton=0x7f0a000a;
         public static final int buy_now=0x7f0a000f;
@@ -423,6 +422,11 @@ containing a value of this type.
         public static final int hybrid=0x7f0a0000;
         public static final int map=0x7f0a001a;
         public static final int match_parent=0x7f0a000c;
+        public static final int menu_changemap=0x7f0a001c;
+        public static final int menu_logout=0x7f0a001f;
+        public static final int menu_settings=0x7f0a001e;
+        public static final int menu_toggleicons=0x7f0a001b;
+        public static final int menu_viewschedule=0x7f0a001d;
         public static final int monochrome=0x7f0a0013;
         public static final int none=0x7f0a0001;
         public static final int normal=0x7f0a0002;

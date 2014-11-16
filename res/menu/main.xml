@@ -3,9 +3,29 @@
     tools:context="com.example.rhodymap.MainActivity" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/menu_toggleicons"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:title="Toggle Icons"/>
+    <item
+        android:id="@+id/menu_changemap"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="View Terrain/Map"/>
+    <item
+        android:id="@+id/menu_viewschedule"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="View Schedule"/>
+    <item
+        android:id="@+id/menu_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Settings"/>
+    <item
+        android:id="@+id/menu_logout"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Log out"/>
 
 </menu>

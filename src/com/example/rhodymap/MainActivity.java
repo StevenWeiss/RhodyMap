@@ -1,74 +1,53 @@
 package com.example.rhodymap;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 public class MainActivity extends Activity implements OnClickListener
 {
+
+    private Button submitButton, skipButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        Button submitButton = (Button)this.findViewById(R.id.submitButton);
+
+        submitButton = (Button)this.findViewById(R.id.submitButton);
         submitButton.setOnClickListener(this);
-        
-        Button skipButton = (Button)this.findViewById(R.id.skipButton);
+
+        skipButton = (Button)this.findViewById(R.id.skipButton);
         skipButton.setOnClickListener(this);
-        
+
         DataManager data = new DataManager(this);
         data.getReadableDatabase(); // Creates the database.
-                
-        test("ch", data);
-        test("tyler", data);
+
     }
-    
-    private void test(String query, DataManager data)
-    {   
-        List<Building> bs = data.getBuildings(query);
-        for (Building b : bs)
-        {
-        	Log.v("MainActivity", b.getName());
-        }
-    }
-    
+
     public void onClick(View v)
     {
         Intent myIntent = new Intent(this, MapManager.class);
-        startActivity(myIntent);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) 
-    {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) 
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) 
+        // Sends the username and password to MapManager if the submit button
+        // is pressed.
+        if (v.getId() == submitButton.getId())
         {
-            return true;
+            TextView username = (TextView)this.findViewById(R.id.usernameText);
+            TextView password = (TextView)this.findViewById(R.id.passwordText);
+                        
+            myIntent.putExtra("username", username.getText().toString());
+            myIntent.putExtra("password", password.getText().toString());
         }
-        return super.onOptionsItemSelected(item);
+
+        startActivity(myIntent);
+
     }
 }
