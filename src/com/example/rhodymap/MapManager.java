@@ -1,11 +1,7 @@
 package com.example.rhodymap;
 
-import java.io.IOException;
 import java.util.List;
 
-import javax.security.auth.login.LoginException;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -163,7 +159,7 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
                 .position(course.toLatLng())
                 .title(course.getName())
                 .snippet(course.getMeetingTimes())
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         }
 
     }
