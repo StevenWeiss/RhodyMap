@@ -408,6 +408,8 @@ containing a value of this type.
         public static final int ic_plusone_tall_off_client=0x7f02001e;
         public static final int powered_by_google_dark=0x7f02001f;
         public static final int powered_by_google_light=0x7f020020;
+        public static final int rhodymapsplashscreencopy=0x7f020021;
+        public static final int splash=0x7f020022;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f0a0019;
@@ -420,6 +422,7 @@ containing a value of this type.
         public static final int holo_dark=0x7f0a0005;
         public static final int holo_light=0x7f0a0006;
         public static final int hybrid=0x7f0a0000;
+        public static final int imageView1=0x7f0a0014;
         public static final int map=0x7f0a001a;
         public static final int match_parent=0x7f0a000c;
         public static final int menu_changemap=0x7f0a001c;
@@ -430,7 +433,7 @@ containing a value of this type.
         public static final int monochrome=0x7f0a0013;
         public static final int none=0x7f0a0001;
         public static final int normal=0x7f0a0002;
-        public static final int passwordText=0x7f0a0015;
+        public static final int passwordText=0x7f0a0016;
         public static final int production=0x7f0a0007;
         public static final int sandbox=0x7f0a0008;
         public static final int satellite=0x7f0a0003;
@@ -439,8 +442,7 @@ containing a value of this type.
         public static final int strict_sandbox=0x7f0a0009;
         public static final int submitButton=0x7f0a0018;
         public static final int terrain=0x7f0a0004;
-        public static final int textView1=0x7f0a0016;
-        public static final int usernameText=0x7f0a0014;
+        public static final int usernameText=0x7f0a0015;
         public static final int wrap_content=0x7f0a000d;
     }
     public static final class integer {
