@@ -48,6 +48,8 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         {
             ServerMediator.getClasses(username, password, this);
         }
+        
+        ServerMediator.getEvents(this);
     }
 
     /**
@@ -159,7 +161,25 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
                 .position(course.toLatLng())
                 .title(course.getName())
                 .snippet(course.getMeetingTimes())
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+        }
+
+    }
+    
+    /**
+     * Adds the classes in the schedule on the map.
+     */
+    public void addEvents(List<Event> events)
+    {      
+
+        for (Event event : events)
+        {
+            Log.v("MapManager", event.getName());
+            gMap.addMarker(new MarkerOptions()
+                .position(event.toLatLng())
+                .title(event.getName())
+                .snippet(event.getMeetingTimes())
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         }
 
     }
