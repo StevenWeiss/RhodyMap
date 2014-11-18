@@ -19,11 +19,13 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterManager;
 
 public class MapManager extends FragmentActivity implements OnMapClickListener, OnInfoWindowClickListener
 {
 
     private GoogleMap gMap;
+    private ClusterManager<Item> mManager;
 
     /**
      * Creates and setup the activity
@@ -34,10 +36,12 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         setContentView(R.layout.activity_map);
 
         setUpMapIfNeeded();
+        setUpClusterer();
 
         gMap.setMyLocationEnabled(true);
         gMap.setOnMapClickListener(this);
         gMap.setOnInfoWindowClickListener(this);
+
 
         Intent intent = this.getIntent();
 
@@ -57,8 +61,7 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
      */
     private void setUpMapIfNeeded() 
     {
-
-        if (gMap == null) 
+    	if (gMap == null) 
         {
             gMap = ((MapFragment)getFragmentManager().findFragmentById(R.id.map))
                     .getMap();
@@ -68,6 +71,18 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
                 defaultCameraPosition();
             }
         }
+    }
+    
+    /**
+     * Sets up the cluster manager
+     */
+    private void setUpClusterer()
+    {    	
+    	mManager = new ClusterManager<Item>(this, gMap);
+    	mManager.setRenderer(new CustomClusterRenderer(this,gMap, mManager));
+    	gMap.setOnCameraChangeListener(mManager);
+        gMap.setOnMarkerClickListener(mManager);
+
     }
 
 
@@ -115,20 +130,14 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
      */
     public void onMapClick(LatLng point) 
     {
-        Marker marker = gMap.addMarker(new MarkerOptions()
-        .position(point)
-        .title("Marker title")
-        .snippet("The info window works!")
-        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-
-    }
-
-    /**
-     * Removes a marker when you click on its info window
-     */
-    public void onInfoWindowClick(Marker arg0)
-    {
-        arg0.remove();
+    	Item myItem = new Item("Marker", "info window", 
+    			BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+    	
+    	myItem.setLat(point.latitude);
+    	myItem.setLong(point.longitude);
+    	
+    	mManager.addItem(myItem);
+    	mManager.cluster();
     }
 
     /**
@@ -157,17 +166,23 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         for (Class course : schedule)
         {
             Log.v("MapManager", course.getName());
-            gMap.addMarker(new MarkerOptions()
-                .position(course.toLatLng())
-                .title(course.getName())
-                .snippet(course.getMeetingTimes())
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+            
+            //Adds information about the marker
+            Item newClass = new Item(course.getName(), course.getMeetingTimes(),
+            		BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+            
+            newClass.setLat(course.getLatitude());
+            newClass.setLong(course.getLongitude());
+            
+            //Adds it to the cluster manager and re-clusters
+            mManager.addItem(newClass);
+            mManager.cluster();
         }
 
     }
     
     /**
-     * Adds the classes in the schedule on the map.
+     * Adds the events in the schedule on the map.
      */
     public void addEvents(List<Event> events)
     {      
@@ -175,13 +190,26 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         for (Event event : events)
         {
             Log.v("MapManager", event.getName());
-            gMap.addMarker(new MarkerOptions()
-                .position(event.toLatLng())
-                .title(event.getName())
-                .snippet(event.getMeetingTimes())
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            
+          //Adds information about the marker
+            Item newEvent = new Item(event.getName(), event.getMeetingTimes(),
+            		BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+            
+            newEvent.setLat(event.getLatitude());
+            newEvent.setLong(event.getLongitude());
+            
+          //Adds it to the cluster manager and re-clusters
+            mManager.addItem(newEvent);
+            mManager.cluster();
         }
+        
 
     }
+
+	@Override
+	public void onInfoWindowClick(Marker arg0) 
+	{
+		arg0.remove();
+	}
 
 }

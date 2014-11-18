@@ -2,7 +2,10 @@ package com.example.rhodymap;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class Point 
+/**
+ *	Location on the map
+ */
+public class Point
 {
 	
 	private double latitude;
@@ -19,6 +22,16 @@ public class Point
 		this.longitude = longitude;
 	}
 	
+	public void setLat(Double lat)
+	{
+		latitude = lat;
+	}
+	
+	public void setLong(Double lng)
+	{
+		longitude = lng;
+	}
+	
 	public double getLatitude()
 	{
 		return latitude;
@@ -29,7 +42,7 @@ public class Point
 		return longitude;
 	}
 	
-	public LatLng toLatLng()
+	public LatLng getPosition()
 	{
 		return new LatLng(latitude, longitude);
 	}

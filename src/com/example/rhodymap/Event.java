@@ -30,10 +30,9 @@ public class Event extends Point
         return building.getLongitude();
     }
 
-    @Override
-    public LatLng toLatLng()
+    public LatLng getCoordinates()
     {
-        return building.toLatLng();
+        return building.getPosition();
     }
 
     public Building getBuilding()
