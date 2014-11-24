@@ -2,12 +2,15 @@ package com.example.rhodymap;
 
 import java.util.List;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,7 +29,15 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
 
     private GoogleMap gMap;
     private ClusterManager<Item> mManager;
-
+    
+    //used for changing the map view
+    private String mapTypeNormal = "MAP_TYPE_NORMAL";
+    private String mapTypeSatellite = "MAP_TYPE_SATELLITE";
+    private String currentMapType = mapTypeNormal;
+    //used for toggling markers
+    private boolean showClasses = true;
+    private boolean showEvents = true;
+    
     /**
      * Creates and setup the activity
      */
@@ -34,10 +45,10 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
+        
         setUpMapIfNeeded();
         setUpClusterer();
-
+        
         gMap.setMyLocationEnabled(true);
         gMap.setOnMapClickListener(this);
         gMap.setOnInfoWindowClickListener(this);
@@ -93,7 +104,15 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-
+        
+        // Inflate the search button; adds search button to the action bar.
+        getMenuInflater().inflate(R.menu.search_action, menu);
+        
+        // associate searchable config with the searchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        
         return true;
     }
 
@@ -112,6 +131,16 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         case R.id.menu_toggleicons:
             return true;
         case R.id.menu_changemap:
+        	if(currentMapType == mapTypeNormal) //sets map to normal (no satellite)
+        	{
+        		currentMapType = mapTypeSatellite;
+        		gMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        	}
+        	else //sets map to satellite
+        	{
+        		currentMapType = mapTypeNormal;
+        		gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        	}
             return true;
         case R.id.menu_viewschedule:
             return true;
@@ -119,6 +148,8 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
             return true;
         case R.id.menu_logout:
             return true;
+        case R.id.action_search:
+        	return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -162,23 +193,21 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
      */
     public void addClasses(List<Class> schedule)
     {      
-
-        for (Class course : schedule)
-        {
-            Log.v("MapManager", course.getName());
+    	for (Class course : schedule)
+    	{
+    		Log.v("MapManager", course.getName());
+    		
+    		//Adds information about the marker
+    		Item newClass = new Item(course.getName(), course.getMeetingTimes(),
+    				BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+           
+    		newClass.setLat(course.getLatitude());
+    		newClass.setLong(course.getLongitude());
             
-            //Adds information about the marker
-            Item newClass = new Item(course.getName(), course.getMeetingTimes(),
-            		BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-            
-            newClass.setLat(course.getLatitude());
-            newClass.setLong(course.getLongitude());
-            
-            //Adds it to the cluster manager and re-clusters
-            mManager.addItem(newClass);
-            mManager.cluster();
-        }
-
+   			//Adds it to the cluster manager and re-clusters
+   			mManager.addItem(newClass);
+   			mManager.cluster();
+   		}
     }
     
     /**
@@ -186,23 +215,21 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
      */
     public void addEvents(List<Event> events)
     {      
-
-        for (Event event : events)
-        {
-            Log.v("MapManager", event.getName());
-            
-          //Adds information about the marker
-            Item newEvent = new Item(event.getName(), event.getMeetingTimes(),
-            		BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-            
-            newEvent.setLat(event.getLatitude());
-            newEvent.setLong(event.getLongitude());
-            
-          //Adds it to the cluster manager and re-clusters
-            mManager.addItem(newEvent);
-            mManager.cluster();
-        }
-        
+    	for (Event event : events)
+	    {
+    		Log.v("MapManager", event.getName());
+	            
+	        //Adds information about the marker
+	        Item newEvent = new Item(event.getName(), event.getMeetingTimes(),
+	          		BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+	            
+	        newEvent.setLat(event.getLatitude());
+	        newEvent.setLong(event.getLongitude());
+	            
+	        //Adds it to the cluster manager and re-clusters
+	        mManager.addItem(newEvent);
+	        mManager.cluster();
+	    }
 
     }
 

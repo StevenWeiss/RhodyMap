@@ -12,7 +12,7 @@
         android:id="@+id/menu_changemap"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="View Terrain/Map"/>
+        android:title="Toggle Map/Terrain"/>
     <item
         android:id="@+id/menu_viewschedule"
         android:orderInCategory="100"
