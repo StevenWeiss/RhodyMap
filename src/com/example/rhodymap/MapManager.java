@@ -1,5 +1,7 @@
 package com.example.rhodymap;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import android.app.SearchManager;
@@ -30,13 +32,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.maps.android.clustering.ClusterManager;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapManager extends FragmentActivity implements OnMapClickListener, OnInfoWindowClickListener
 {
 
     private GoogleMap gMap;
-    private ClusterManager<Item> mManager;
+    private Collection<Marker> mManager = new ArrayList<Marker>();
 
     //used for changing the map view
     private String mapTypeNormal = "MAP_TYPE_NORMAL";
@@ -45,6 +47,7 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
     //used for toggling markers
     private boolean showClasses = true;
     private boolean showEvents = true;
+    private boolean toggleIcons = true;
 
     private String[] drawerListViewItems;
     private DrawerLayout drawerLayout;
@@ -63,7 +66,7 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         setContentView(R.layout.activity_map);
 
         setUpMapIfNeeded();
-        setUpClusterer();
+        
 
         gMap.setMyLocationEnabled(true);
         gMap.setOnMapClickListener(this);
@@ -154,20 +157,7 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
             }
         }
     }
-
-    /**
-     * Sets up the cluster manager
-     */
-    private void setUpClusterer()
-    {    	
-        mManager = new ClusterManager<Item>(this, gMap);
-        mManager.setRenderer(new CustomClusterRenderer(this,gMap, mManager));
-        gMap.setOnCameraChangeListener(mManager);
-        gMap.setOnMarkerClickListener(mManager);
-
-    }
-
-
+    
     /**
      * Creates the options menu
      */
@@ -197,13 +187,34 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) 
+        {
             return true;
         }
 
         switch(id)
         {
         case R.id.menu_toggleicons:
+        	if(toggleIcons == true)
+        	{
+        		for(Marker m: mManager)
+        		{
+        			m.setVisible(false);
+        		}
+        		
+        		toggleIcons = false;
+        	}
+        	else
+        	{
+        		for(Marker m: mManager)
+        		{
+        			m.setVisible(true);
+        		}
+        		
+        		toggleIcons = true;
+        	}
+        
+        	
             return true;
         case R.id.menu_changemap:
             if(currentMapType == mapTypeNormal) //sets map to normal (no satellite)
@@ -236,14 +247,13 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
      */
     public void onMapClick(LatLng point) 
     {
-        Item myItem = new Item("Marker", "info window", 
-                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
-        myItem.setLat(point.latitude);
-        myItem.setLong(point.longitude);
-
-        mManager.addItem(myItem);
-        mManager.cluster();
+        Marker marker = gMap.addMarker(new MarkerOptions()
+        .position(point)
+        .title("Marker")
+        .snippet("Info Window")
+        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        
+        mManager.add(marker);
     }
 
     /**
@@ -271,17 +281,14 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         for (Class course : schedule)
         {
             Log.v("MapManager", course.getName());
-
-            //Adds information about the marker
-            Item newClass = new Item(course.getName(), course.getMeetingTimes(),
-                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-
-            newClass.setLat(course.getLatitude());
-            newClass.setLong(course.getLongitude());
-
-            //Adds it to the cluster manager and re-clusters
-            mManager.addItem(newClass);
-            mManager.cluster();
+            
+            Marker newClass = gMap.addMarker(new MarkerOptions()
+            .position(course.getCoordinates())
+            .title(course.getName())
+            .snippet(course.getMeetingTimes())
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+           
+            mManager.add(newClass);
         }
     }
 
@@ -293,17 +300,15 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         for (Event event : events)
         {
             Log.v("MapManager", event.getName());
+            
+            Marker newEvent = gMap.addMarker(new MarkerOptions()
+            .position(event.getCoordinates())
+            .title(event.getName())
+            .snippet(event.getMeetingTimes())
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+           
+            mManager.add(newEvent);
 
-            //Adds information about the marker
-            Item newEvent = new Item(event.getName(), event.getMeetingTimes(),
-                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-
-            newEvent.setLat(event.getLatitude());
-            newEvent.setLong(event.getLongitude());
-
-            //Adds it to the cluster manager and re-clusters
-            mManager.addItem(newEvent);
-            mManager.cluster();
         }
 
     }
