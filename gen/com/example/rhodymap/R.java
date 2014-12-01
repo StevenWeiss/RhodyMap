@@ -417,9 +417,10 @@ containing a value of this type.
         public static final int rhodymapicon72x72=0x7f020024;
         public static final int rhodymapsplashscreencopy=0x7f020025;
         public static final int splash=0x7f020026;
+        public static final int steam_latest=0x7f020027;
     }
     public static final class id {
-        public static final int action_search=0x7f0c0022;
+        public static final int action_search=0x7f0c001d;
         public static final int book_now=0x7f0c000e;
         public static final int buyButton=0x7f0c000a;
         public static final int buy_now=0x7f0c000f;
@@ -434,11 +435,6 @@ containing a value of this type.
         public static final int left_drawer=0x7f0c001b;
         public static final int map=0x7f0c001a;
         public static final int match_parent=0x7f0c000c;
-        public static final int menu_changemap=0x7f0c001e;
-        public static final int menu_logout=0x7f0c0021;
-        public static final int menu_settings=0x7f0c0020;
-        public static final int menu_toggleicons=0x7f0c001d;
-        public static final int menu_viewschedule=0x7f0c001f;
         public static final int monochrome=0x7f0c0013;
         public static final int none=0x7f0c0001;
         public static final int normal=0x7f0c0002;

@@ -47,10 +47,12 @@ public class ServerMediator
             final MapManager m)
     {
 
+        // Creates a thread which sends the HTTP request
         new Thread() {
             private final String name = username;
             private final String pass = password;
 
+            // Action of the thread
             public void run()
             {
                 // Login the student and get schedule.
@@ -93,6 +95,7 @@ public class ServerMediator
                 + password;
         int contentLength = data.length();
 
+        // The actual HTTP request
         Connection connection = Jsoup
                 .connect(ECAMPUS_URL)
                 .header("Host", "appsaprod.uri.edu:9503")
@@ -118,6 +121,8 @@ public class ServerMediator
 
         connection.post();
 
+        // If the HTTP response doesn't have this cookie, then wrong login
+        // credentials were used.
         if (!connection.response().hasCookie("PS_TOKENEXPIRE"))
         {
             throw new LoginException("Invalid Username/Password");
@@ -146,6 +151,7 @@ public class ServerMediator
                 .header("Content-Typ", "application/x-www-form-urlencoded")
                 .cookies(cookies).get();
 
+        // Holds each HTML element which has class information.
         Elements classes = studentCenter.select(".PSLEVEL3GRID");
 
         DataManager data = new DataManager(m);
@@ -153,6 +159,7 @@ public class ServerMediator
         // Adds each class to a list.
         for (int i = 0; i < classes.size(); i += 2)
         {
+            // Parses the response
             Element currentCell = classes.get(i);
             String className = currentCell.select("span").html().split("<br>")[0];
 
@@ -178,9 +185,16 @@ public class ServerMediator
         return schedule;
     }
 
+    /**
+     * Sends HTTP request in a separate thread to get trending campus events.
+     * 
+     * @param m
+     */
     public static void getEvents(final MapManager m)
     {
-        new Thread() {
+
+        new Thread() 
+        {
             public void run()
             {
                 // Login the student and get schedule.
@@ -189,7 +203,8 @@ public class ServerMediator
                     final List<Event> events = getEventsFromURI(m);
 
                     Handler handler = new Handler(Looper.getMainLooper());
-                    handler.post(new Runnable() {
+                    handler.post(new Runnable() 
+                    {
 
                         @Override
                         public void run()
@@ -207,7 +222,8 @@ public class ServerMediator
         }.start();
     }
 
-    private static List<Event> getEventsFromURI(MapManager m) throws IOException
+    private static List<Event> getEventsFromURI(MapManager m)
+            throws IOException
     {
         Document doc = new Document("");
 

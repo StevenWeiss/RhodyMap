@@ -34,7 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapManager extends FragmentActivity implements OnMapClickListener, OnInfoWindowClickListener
+public class MapManager extends FragmentActivity implements OnMapClickListener, OnInfoWindowClickListener, ListView.OnItemClickListener
 {
 
     private GoogleMap gMap;
@@ -63,6 +63,8 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        
+        
         setContentView(R.layout.activity_map);
 
         setUpMapIfNeeded();
@@ -87,6 +89,7 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         ServerMediator.getEvents(this);
     }
 
+    @SuppressWarnings("deprecation")
     private void setupNavDrawer()
     {
         // get list items from strings.xml
@@ -94,6 +97,10 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
 
         // get ListView defined in activity_main.xml
         drawerListView = (ListView) findViewById(R.id.left_drawer);
+        
+        drawerListView.setDividerHeight(10);
+        
+        drawerListView.setOnItemClickListener(this);
 
         // Set the adapter for the list view
         drawerListView.setAdapter(new ArrayAdapter<String>(this,
@@ -192,9 +199,9 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
             return true;
         }
 
-        switch(id)
+       /*  switch(id)
         {
-        case R.id.menu_toggleicons:
+       case R.id.menu_toggleicons:
         	if(toggleIcons == true)
         	{
         		for(Marker m: mManager)
@@ -212,11 +219,11 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         		}
         		
         		toggleIcons = true;
-        	}
+        	}*/
         
         	
-            return true;
-        case R.id.menu_changemap:
+          //  return true;
+       /* case R.id.menu_changemap:
             if(currentMapType == mapTypeNormal) //sets map to normal (no satellite)
             {
                 currentMapType = mapTypeSatellite;
@@ -236,7 +243,7 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
             return true;
         case R.id.action_search:
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -317,6 +324,14 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
     public void onInfoWindowClick(Marker arg0) 
     {
         arg0.remove();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,
+            long id)
+    {
+        // TODO Auto-generated method stub
+        
     }
 
 }

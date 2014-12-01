@@ -100,7 +100,8 @@ int drawable rhodymapicon 0x7f020023
 int drawable rhodymapicon72x72 0x7f020024
 int drawable rhodymapsplashscreencopy 0x7f020025
 int drawable splash 0x7f020026
-int id action_search 0x7f0c0022
+int drawable steam_latest 0x7f020027
+int id action_search 0x7f0c001d
 int id book_now 0x7f0c000e
 int id buyButton 0x7f0c000a
 int id buy_now 0x7f0c000f
@@ -115,11 +116,6 @@ int id imageView1 0x7f0c0014
 int id left_drawer 0x7f0c001b
 int id map 0x7f0c001a
 int id match_parent 0x7f0c000c
-int id menu_changemap 0x7f0c001e
-int id menu_logout 0x7f0c0021
-int id menu_settings 0x7f0c0020
-int id menu_toggleicons 0x7f0c001d
-int id menu_viewschedule 0x7f0c001f
 int id monochrome 0x7f0c0013
 int id none 0x7f0c0001
 int id normal 0x7f0c0002

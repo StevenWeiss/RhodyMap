@@ -8,12 +8,12 @@
 	<string name="search_hint">Search Hint</string>
 	
 	<string-array name="items">
-        <item>Item 1</item>
-        <item>Item 2</item>
-        <item>Item 3</item>
-        <item>Item 4</item>
-        <item>Item 5</item>
-        <item>Item 6</item>
+	    <item>Select Day</item>
+        <item>Toggle Icons</item>
+        <item>Toggle Map/Terrain</item>
+        <item>View Schedule</item>
+        <item>Settings</item>
+        <item>Log Out</item>
     </string-array>
  
     <string name="drawer_open">Open navigation drawer</string>
