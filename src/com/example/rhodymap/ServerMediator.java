@@ -252,12 +252,19 @@ public class ServerMediator
                 continue; // Skip to the next iteration.
             }
 
-            Building b = data.getBuildings(building.substring(0, 8)).get(0);
+            try
+            {
+                Building b = data.getBuildings(building.substring(0, 8)).get(0);
 
-            String meetingTime = item.select(".dtstart").html();
-            String name = item.select(".summary a").html();
+                String meetingTime = item.select(".dtstart").html();
+                String name = item.select(".summary a").html();
 
-            events.add(new Event(name, meetingTime, b));
+                events.add(new Event(name, meetingTime, b));
+            }
+            catch (IndexOutOfBoundsException e)
+            {
+                e.printStackTrace();
+            }
         }
 
         return events;
