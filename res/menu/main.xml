@@ -28,11 +28,5 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Log out"/>
-    
-    <item android:id="@+id/menu_search"
-        android:icon="@drawable/ic_action_search"
-        android:title="@string/action_search"
-        android:showAsAction="always"
-   		android:actionViewClass="android.widget.SearchView"/>
 
 </menu>
