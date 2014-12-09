@@ -34,28 +34,90 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+/**
+ *	MapManager instantiates the map object and organizes objects on the map
+ */
 public class MapManager extends FragmentActivity implements OnMapClickListener, OnInfoWindowClickListener
 {
 
-    private GoogleMap gMap;
-    private Collection<Marker> mManager = new ArrayList<Marker>();
+    /**
+     * The main map to interact with
+     */
+	private GoogleMap gMap;
+	
+	/**
+	 * The collection to hold the markers
+	 */
+    private Collection<Marker> mManager;
 
-    //used for changing the map view
-    private String mapTypeNormal = "MAP_TYPE_NORMAL";
-    private String mapTypeSatellite = "MAP_TYPE_SATELLITE";
-    private String currentMapType = mapTypeNormal;
-    //used for toggling markers
-    private boolean showClasses = true;
-    private boolean showEvents = true;
-    private boolean toggleIcons = true;
+    /**
+     * Used for changing the map view to normal
+     */
+    private String mapTypeNormal;
+    
+    /**
+     * Used for changing the map view to satellite
+     */
+    private String mapTypeSatellite;
+    
+    /**
+     * Sets the current map type
+     */
+    private String currentMapType;
+    
+    /**
+     * Show the classes
+     */
+    private boolean showClasses;
+    
+    /**
+     * Show the events
+     */
+    private boolean showEvents;
+    
+    /**
+     * Show the icons
+     */
+    private boolean toggleIcons;
 
+    /**
+     * Array to hold the drawer items
+     */
     private String[] drawerListViewItems;
+    
+    /**
+     * The layout of the drawer
+     */
     private DrawerLayout drawerLayout;
     
+    /**
+     * The listview for the drawer
+     */
     private ListView drawerListView;
+    
     @SuppressWarnings("deprecation")
     // TODO apparently this class is deprecated.
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    
+    /**
+     * Constructor
+     */
+    public MapManager()
+    {
+    	mManager = new ArrayList<Marker>();
+    	
+    	mapTypeNormal = "MAP_TYPE_NORMAL";
+    	
+    	mapTypeSatellite = "MAP_TYPE_SATELLITE";
+    	
+    	currentMapType = mapTypeNormal;
+    	
+    	showClasses = true;
+    	
+    	showEvents = true;
+    	
+    	toggleIcons = true;
+    }
 
     /**
      * Creates and setup the activity
@@ -67,7 +129,6 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
 
         setUpMapIfNeeded();
         
-
         gMap.setMyLocationEnabled(true);
         gMap.setOnMapClickListener(this);
         gMap.setOnInfoWindowClickListener(this);
@@ -83,10 +144,14 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         {
             ServerMediator.getClasses(username, password, this);
         }
-
-        ServerMediator.getEvents(this);
+        
+        //this is making my app crash, so it has been commented out for now
+        //ServerMediator.getEvents(this);
     }
 
+    /**
+     * Sets up the navigation drawer
+     */
     private void setupNavDrawer()
     {
         // get list items from strings.xml
@@ -120,25 +185,18 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
     }
     
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    protected void onPostCreate(Bundle savedInstanceState) 
+    {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
          actionBarDrawerToggle.syncState();
     }
  
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(Configuration newConfig) 
+    {
         super.onConfigurationChanged(newConfig);
         actionBarDrawerToggle.onConfigurationChanged(newConfig);
-    }
-  
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            Toast.makeText(MapManager.this, ((TextView)view).getText(), Toast.LENGTH_LONG).show();
-            drawerLayout.closeDrawer(drawerListView);
- 
-        }
     }
 
     /**
@@ -166,12 +224,9 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        // Inflate the search button; adds search button to the action bar.
-        getMenuInflater().inflate(R.menu.search_action, menu);
-
-        // associate searchable config with the searchView
+        // associate searchable
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
         return true;
@@ -179,6 +234,8 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
 
     /**
      * Associates actions with the press of a menu
+     * @param item	menu item object
+     * @return	boolean
      */
     public boolean onOptionsItemSelected(MenuItem item) 
     {
@@ -194,6 +251,7 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
 
         switch(id)
         {
+        //toggles the markers on the map
         case R.id.menu_toggleicons:
         	if(toggleIcons == true)
         	{
@@ -213,9 +271,9 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         		
         		toggleIcons = true;
         	}
-        
-        	
             return true;
+
+        //changes the map type
         case R.id.menu_changemap:
             if(currentMapType == mapTypeNormal) //sets map to normal (no satellite)
             {
@@ -234,7 +292,7 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
             return true;
         case R.id.menu_logout:
             return true;
-        case R.id.action_search:
+        case R.id.menu_search:
             return true;
         }
 
@@ -244,6 +302,7 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
 
     /**
      * Adds a marker when you click on the map
+     * @param point		latitude and longitude
      */
     public void onMapClick(LatLng point) 
     {
@@ -266,7 +325,7 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
         CameraPosition cameraPosition = new CameraPosition.Builder()
         .target(uri)    	  
         .zoom(17)                   
-        .bearing(90)               
+        .bearing(0)               
         .tilt(30)                   
         .build();                 
 
@@ -275,6 +334,7 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
 
     /**
      * Adds the classes in the schedule on the map.
+     * @param schedule		the user's schedule
      */
     public void addClasses(List<Class> schedule)
     {      
@@ -294,6 +354,7 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
 
     /**
      * Adds the events in the schedule on the map.
+     * @param events	the user's events
      */
     public void addEvents(List<Event> events)
     {      
@@ -308,15 +369,27 @@ public class MapManager extends FragmentActivity implements OnMapClickListener, 
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
            
             mManager.add(newEvent);
-
         }
-
     }
 
+    /**
+     * Allows you to click on the info window of the marker
+     * @param arg0		the marker object
+     */
     @Override
     public void onInfoWindowClick(Marker arg0) 
     {
         arg0.remove();
+    }
+    
+    private class DrawerItemClickListener implements ListView.OnItemClickListener 
+    {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            Toast.makeText(MapManager.this, ((TextView)view).getText(), Toast.LENGTH_LONG).show();
+            drawerLayout.closeDrawer(drawerListView);
+ 
+        }
     }
 
 }
